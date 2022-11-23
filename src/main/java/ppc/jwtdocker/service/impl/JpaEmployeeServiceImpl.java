@@ -4,39 +4,42 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ppc.jwtdocker.data.Employee;
-import ppc.jwtdocker.repository.InMemoryEmployeeRepository;
+import ppc.jwtdocker.repository.JpaEmployeeRepository;
 import ppc.jwtdocker.service.EmployeeService;
 
 import java.util.List;
-@RequiredArgsConstructor
+
 @Service
-@Qualifier(value = "myInMemoryEmployeeService")
-public class InMemoryEmployeeServiceImpl implements EmployeeService {
-    private final InMemoryEmployeeRepository inMemoryEmployeeRepository;
+@RequiredArgsConstructor
+@Qualifier(value = "myPostgresEmployeeService")
+public class JpaEmployeeServiceImpl implements EmployeeService {
+
+    private final JpaEmployeeRepository jpaEmployeeRepository;
 
     @Override
     public Employee addEmployee(Employee employee) {
-        return inMemoryEmployeeRepository.addEmployee(employee);
-
+        return jpaEmployeeRepository.save(employee);
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        return inMemoryEmployeeRepository.getAllEmployees();
+        return jpaEmployeeRepository.findAll();
     }
 
     @Override
     public Employee findById(Integer id) {
-        return inMemoryEmployeeRepository.findById(id);
+        return jpaEmployeeRepository.findById(id).get();
     }
 
+    // TODO! Ingen aning om detta är korrekt!
     @Override
     public Employee updateEmployee(Employee employee) {
-        return inMemoryEmployeeRepository.updateEmployee(employee);
+        return null;
     }
 
     @Override
     public Boolean deleteById(Integer id) {
-        return inMemoryEmployeeRepository.deleteById(id);
+        jpaEmployeeRepository.deleteById(id);
+        return Boolean.TRUE;
     }
 }

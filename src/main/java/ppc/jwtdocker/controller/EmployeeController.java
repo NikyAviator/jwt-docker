@@ -1,6 +1,6 @@
 package ppc.jwtdocker.controller;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -12,10 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/employees")
-@RequiredArgsConstructor
+
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+
+    public EmployeeController(@Qualifier(value = "myPostgresEmployeeService")EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Employee>> getEmployees(){
