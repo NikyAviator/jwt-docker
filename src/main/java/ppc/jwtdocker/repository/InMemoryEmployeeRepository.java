@@ -18,8 +18,9 @@ public class InMemoryEmployeeRepository {
     }
 
     // Save an employee
-    public void addEmployee(Employee employee){
+    public Employee addEmployee(Employee employee){
         DATABASE.add(employee);
+        return employee;
     }
 
     // Get employees
@@ -33,11 +34,12 @@ public class InMemoryEmployeeRepository {
     }
 
     // Update employee
-    public void updateEmployee(Employee employee){
+    public Employee updateEmployee(Employee employee){
         Employee employee1= DATABASE.stream().filter(emp -> employee.getId().equals(emp.getId())).findFirst().orElseThrow();
         employee1.setEmail(employee.getEmail());
         employee1.setFirstName(employee.getFirstName());
         employee1.setLastName(employee.getLastName());
+        return employee1;
         
     }
 
